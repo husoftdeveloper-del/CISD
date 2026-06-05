@@ -1,0 +1,6 @@
+{
+    "name": "hk/site",
+    "require": {
+        "phpmailer/phpmailer": "^7.1"
+    }
+}
