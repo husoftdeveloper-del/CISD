@@ -1,6 +1,11 @@
 -- CISD INSTITUTE database
+<<<<<<< HEAD
 CREATE DATABASE IF NOT EXISTS u328011253_cisd_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+=======
+CREATE DATABASE IF NOT EXISTS novaskills CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE novaskills;
+>>>>>>> 39242820cb49393c9ee47326a9c79f854b5ffe8a
 
 CREATE TABLE IF NOT EXISTS admissions (
   id INT AUTO_INCREMENT PRIMARY KEY,
