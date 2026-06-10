@@ -16,7 +16,7 @@
   <div class="container nav-inner">
     <a href="index.php" class="brand">
       <img src="images/CISD.png" alt="CISD INSTITUTE Logo" class="brand-logo" />
-      <span class="brand-text"><?= e($INSTITUTE['name']) ?></span>
+
     </a>
     <nav class="nav-links" id="navLinks">
       <a href="index.php" class="<?= $PAGE==='home'?'active':'' ?>">Home</a>

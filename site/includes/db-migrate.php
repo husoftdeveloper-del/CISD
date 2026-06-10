@@ -62,9 +62,9 @@ function cisd_seed_defaults(PDO $pdo): void
     $settings = [
         'institute_name' => 'CISD INSTITUTE',
         'institute_tagline' => 'Professional IT & Digital Skills Training Institute',
-        'institute_phone' => '+923705040330',
-        'institute_whatsapp' => '923705040330',
-        'institute_email' => 'usmanalishah5040@gmail.com',
+        'institute_phone' => '+923149284641',
+        'institute_whatsapp' => '923149284641',
+        'institute_email' => 'cisdsardheri@gmail.com',
         'institute_address' => 'Main Sardheri Bazar Wardagha Road',
         'institute_maps' => 'https://www.google.com/maps?q=Main+Boulevard+Lahore&output=embed',
         'social_tiktok' => '#',
@@ -142,10 +142,9 @@ function cisd_seed_defaults(PDO $pdo): void
     $teamCount = (int) $pdo->query("SELECT COUNT(*) FROM team_members")->fetchColumn();
     if ($teamCount === 0) {
         $team = [
-            ['images/shahabsir.JPEG', 'Shahab Khan', 'Founder & Lead Instructor', 'Software Engineer', 'Sardheri, Charsadda', '+92-370-504-0330', 'shahab@cisd-institute.com', 'M.Sc. Computer Science'],
-            ['images/qarisaib.JPEG', 'Usman Ali', 'Senior Trainer', 'UI/UX & Graphic Design', 'Sardheri, Charsadda', '+92-370-504-0331', 'usman@cisd-institute.com', 'B.Des. Graphic Design'],
-            ['images/Hafiz.PNG', 'Hafiz Ullah', 'Trainer', 'Video Editing & Content', 'Sardheri, Charsadda', '+92-370-504-0332', 'hafiz@cisd-institute.com', 'Diploma in Video Production'],
-            ['images/Daniyal.JPEG', 'Danyal', 'Trainer', 'Digital Marketing', 'Mardan, Pakistan', '+92-370-504-0333', 'danyal@cisd-institute.com', 'BBA Marketing'],
+            ['images/shahabsir.JPEG', 'Shahab Khan', 'Founder, Director & Lead Technology Mentor', 'Leading the vision, strategy, academic direction, and technology programs of CISD.', 'Sardheri, Charsadda', '+92-370-504-0330', 'shahab@cisd-institute.com', 'M.Sc. Computer Science'],
+            ['images/taimor.jpeg', 'Taimor Khan', 'Chief Executive Officer (CEO)', 'Responsible for operations, business growth, partnerships, and organizational management.', 'Sardheri, Charsadda', '', '', ''],
+            ['images/qarisaib.JPEG', 'Usman Ali', 'Senior Trainer & Web/App Developer', 'Specializing in Web Development, Mobile App Development, and student technical training.', 'Sardheri, Charsadda', '+92-370-504-0331', 'usman@cisd-institute.com', 'B.Des. Graphic Design'],
         ];
         $stmt = $pdo->prepare("INSERT INTO team_members (image_path, name, role, specialty, location, contact, email, education, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         foreach ($team as $i => $t) {

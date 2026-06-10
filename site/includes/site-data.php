@@ -45,8 +45,9 @@ function cisd_apply_institute_from_settings(): void
     ];
 }
 
-function cisd_get_features(PDO $pdo, string $section): array
+function cisd_get_features(?PDO $pdo, string $section): array
 {
+    if (!$pdo) return [];
     try {
         $stmt = $pdo->prepare("SELECT * FROM features WHERE section = ? ORDER BY display_order ASC, id ASC");
         $stmt->execute([$section]);
@@ -56,8 +57,9 @@ function cisd_get_features(PDO $pdo, string $section): array
     }
 }
 
-function cisd_get_team(PDO $pdo, bool $activeOnly = true): array
+function cisd_get_team(?PDO $pdo, bool $activeOnly = true): array
 {
+    if (!$pdo) return [];
     try {
         $sql = "SELECT * FROM team_members";
         if ($activeOnly) {
@@ -70,8 +72,9 @@ function cisd_get_team(PDO $pdo, bool $activeOnly = true): array
     }
 }
 
-function cisd_get_gallery(PDO $pdo): array
+function cisd_get_gallery(?PDO $pdo): array
 {
+    if (!$pdo) return [];
     try {
         return $pdo->query("SELECT * FROM gallery ORDER BY display_order ASC, id DESC")->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -79,8 +82,9 @@ function cisd_get_gallery(PDO $pdo): array
     }
 }
 
-function cisd_get_success_stories(PDO $pdo, ?int $limit = null): array
+function cisd_get_success_stories(?PDO $pdo, ?int $limit = null): array
 {
+    if (!$pdo) return [];
     try {
         $sql = "SELECT * FROM success_stories ORDER BY created_at DESC";
         if ($limit !== null) {

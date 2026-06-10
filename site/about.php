@@ -54,10 +54,10 @@ $team = cisd_get_team($pdo);
       <span class="eyebrow"><?= e(site_setting('about_team_eyebrow', 'Meet the Team')) ?></span>
       <h2><?= e(site_setting('about_team_title', 'Mentors who care about your success')) ?></h2>
     </div>
-    <div class="grid cards-4">
+    <div class="grid cards-3" style="justify-content:center;">
       <?php foreach($team as $t): ?>
       <div class="card reveal">
-        <img src="<?= e($t['image_path']) ?>" alt="<?= e($t['name']) ?>" loading="lazy" />
+        <img src="<?= e($t['image_path']) ?>" alt="<?= e($t['name']) ?>" loading="lazy" onerror="this.onerror=null; this.src='images/hero-classroom.jpg';" />
         <div class="card-body">
           <h3><?= e($t['name']) ?></h3>
           <p style="color:var(--gold);font-weight:600;margin:0"><?= e($t['role']) ?></p>
