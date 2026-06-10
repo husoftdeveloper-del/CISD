@@ -6,7 +6,9 @@
 $host = "localhost";
 $user = "root";
 $pass = ""; // usually empty for XAMPP local root
-$db   = "u328011253_cisd_db";
+// Your local DB name must exist in XAMPP MySQL.
+// If you haven’t imported site/database.sql yet, create/import it and update this value.
+$db   = "novaskills"; // use an existing local DB name
 
 // SMTP configuration for PHPMailer (optional for local)
 $SMTP_HOST = 'smtp.gmail.com';
@@ -19,9 +21,9 @@ $SMTP_SECURE = 'tls';
 $INSTITUTE = [
   'name'      => 'CISD INSTITUTE',
   'tagline'   => 'Professional IT & Digital Skills Training Institute',
-  'phone'     => '+923705040330',
-  'whatsapp'  => '923705040330',
-  'email'     => 'usmanalishah5040@gmail.com',
+  'phone'     => '+923149284641',
+  'whatsapp'  => '923149284641',
+  'email'     => 'cisdsardheri@gmail.com',
   'address'   => 'Main Sardheri Bazar Wardagha Road',
   'maps'      => 'https://www.google.com/maps?q=Main+Boulevard+Lahore&output=embed',
 ];

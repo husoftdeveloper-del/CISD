@@ -37,34 +37,27 @@
 <section class="section">
   <div class="container">
     <div class="section-head reveal"><span class="eyebrow">Meet the Team</span><h2>Mentors who care about your success</h2></div>
-    <div class="grid cards-3" style="justify-content:center;">
+    <div class="grid cards-4">
       <?php
       $team=[
-    ['shahabsir.JPEG','Shahab Khan','Founder, Director & Lead Technology Mentor','Leading the vision, strategy, academic direction, and technology programs of CISD.'],
-        ['taimor.JPEG','Taimor Khan ','Chief Executive Officer (CEO)','Responsible for operations, business growth, partnerships, and organizational management.'],
+    ['shahabsir.JPEG','Shahab Khan','Founder & Lead Instructor','Software Engineer'],
+    ['qarisaib.JPEG','Usman Ali','Senior Trainer','Web & App developer'],
 
-    ['qarisaib.JPEG','Usman Ali','Senior Trainer & Web/App Developer','Specializing in Web Development, Mobile App Development, and student technical training.'],
-
+    ['taimor.JPEG','Taimor Khan ','CEO','SEO and Digital Marketer'],
 ];
       foreach($team as $i => $t): ?>
       <div class="card reveal">
-        <img
-          src="images/<?= e($t[0]) ?>"
-          alt="<?= e($t[1]) ?>"
-          loading="lazy"
-          onerror="this.onerror=null; this.src='images/team-1.jpg';"
-        />
+        <img src="images/<?= e($t[0]) ?>" alt="<?= e($t[1]) ?>" loading="lazy" />
         <div class="card-body">
           <h3><?= e($t[1]) ?></h3>
           <p style="color:var(--gold);font-weight:600;margin:0"><?= e($t[2]) ?></p>
           <p><?= e($t[3]) ?></p>
-        </div>
-      </div>
 
-  <?php endforeach; ?>
+          </div>
+      </div>
+      <?php endforeach; ?>
     </div>
-  </div>  
+  </div>
 </section>
 
 <?php include 'includes/footer.php'; ?>
-            
