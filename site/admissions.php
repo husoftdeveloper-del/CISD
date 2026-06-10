@@ -61,9 +61,9 @@ include 'includes/header.php';
 
 <section class="page-header">
   <div class="container">
-    <span class="eyebrow">Admissions Open</span>
-    <h1>Apply for Admission</h1>
-    <p>Fill the form below — our advisor will reach out to confirm your seat.</p>
+    <span class="eyebrow"><?= e(site_setting('admissions_eyebrow', 'Admissions Open')) ?></span>
+    <h1><?= e(site_setting('admissions_title', 'Apply for Admission')) ?></h1>
+    <p><?= e(site_setting('admissions_subtitle')) ?></p>
   </div>
 </section>
 
@@ -91,8 +91,8 @@ include 'includes/header.php';
       </form>
     </div>
     <div class="reveal">
-      <div class="info-card"><h4>Admission Process</h4><p>1. Submit application form<br>2. Counseling call within 24 hrs<br>3. Fee deposit & seat confirmation<br>4. Welcome onboarding + class start</p></div>
-      <div class="info-card"><h4>Fee Structure</h4><p>Easy installment plans available. Discount for early-bird and group admissions.</p></div>
+      <div class="info-card"><h4>Admission Process</h4><p><?= nl2br(e(site_setting('admissions_process'))) ?></p></div>
+      <div class="info-card"><h4>Fee Structure</h4><p><?= e(site_setting('admissions_fees')) ?></p></div>
       <div class="info-card"><h4>Need help?</h4><p>Call <strong><?= e($INSTITUTE['phone']) ?></strong> or email <strong><?= e($INSTITUTE['email']) ?></strong></p></div>
     </div>
   </div>

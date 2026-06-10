@@ -1,13 +1,14 @@
 <?php
-
+$adminPage = 'applications';
+$adminPageTitle = 'Applications Management';
+require_once 'includes/init.php';
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once '../config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$message = '';
-$messageType = '';
+$message = $adminMessage ?? '';
+$messageType = $adminMessageType ?? '';
 
 // Handle status update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_status') {
@@ -136,61 +137,8 @@ try {
     $approved_count = 0;
     $rejected_count = 0;
 }
+require 'includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Applications Management - CISD Institute Admin</title>
-    <link rel="stylesheet" href="css/admin.css">
-</head>
-<body>
-    <div class="admin-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>CISD Admin</h2>
-                <p>Dashboard Control Panel</p>
-            </div>
-            <nav class="sidebar-nav">
-                <a href="dashboard.php">
-                    <span>📊</span>
-                    <span>Dashboard</span>
-                </a>
-                <a href="applications.php" class="active">
-                    <span>📝</span>
-                    <span>Applications</span>
-                    <?php if ($pending_count > 0): ?>
-                        <span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: auto;"><?= $pending_count ?></span>
-                    <?php endif; ?>
-                </a>
-                <a href="courses.php">
-                    <span>📚</span>
-                    <span>Courses</span>
-                </a>
-                <a href="gallery.php">
-                    <span>🖼️</span>
-                    <span>Gallery</span>
-                </a>
-                <a href="statistics.php">
-                    <span>📈</span>
-                    <span>Statistics</span>
-                </a>
-                <a href="students.php">
-                    <span>🎓</span>
-                    <span>Students Showcase</span>
-                </a>
-            </nav>
-            <div class="sidebar-footer">
-                <form method="POST" action="logout.php">
-                    <button type="submit" class="logout-btn">Logout</button>
-                </form>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
             <div class="header">
                 <h1>Student Applications</h1>
                 <div class="header-actions">
@@ -301,9 +249,6 @@ try {
                     </table>
                 </div>
             </div>
-        </main>
-    </div>
-
     <!-- Details Modal -->
     <div id="detailsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
         <div style="background: #fff; border-radius: 12px; padding: 32px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
@@ -312,8 +257,6 @@ try {
             <button onclick="document.getElementById('detailsModal').style.display='none'" class="btn btn-primary" style="margin-top: 20px; width: 100%;">Close</button>
         </div>
     </div>
-
-    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('active')">☰</button>
 
     <script>
         function showDetails(app) {
@@ -340,5 +283,4 @@ try {
             }
         });
     </script>
-</body>
-</html>
+<?php require 'includes/footer.php'; ?>

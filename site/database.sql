@@ -1,11 +1,6 @@
 -- CISD INSTITUTE database
-<<<<<<< HEAD
 CREATE DATABASE IF NOT EXISTS u328011253_cisd_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-=======
-CREATE DATABASE IF NOT EXISTS novaskills CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE novaskills;
->>>>>>> 39242820cb49393c9ee47326a9c79f854b5ffe8a
 
 CREATE TABLE IF NOT EXISTS admissions (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -27,6 +22,39 @@ CREATE TABLE IF NOT EXISTS contact_messages (
   phone VARCHAR(40),
   subject VARCHAR(160),
   message TEXT NOT NULL,
+  is_read TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS site_settings (
+  setting_key VARCHAR(100) PRIMARY KEY,
+  setting_value TEXT,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS features (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  section ENUM('home','about_values') NOT NULL DEFAULT 'home',
+  icon VARCHAR(20) NOT NULL DEFAULT '★',
+  title VARCHAR(120) NOT NULL,
+  description TEXT NOT NULL,
+  display_order INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS team_members (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  image_path VARCHAR(255) NOT NULL,
+  name VARCHAR(120) NOT NULL,
+  role VARCHAR(120) NOT NULL,
+  specialty VARCHAR(160) NOT NULL,
+  location VARCHAR(160),
+  contact VARCHAR(60),
+  email VARCHAR(160),
+  education VARCHAR(160),
+  bio TEXT,
+  display_order INT DEFAULT 0,
+  status ENUM('active','inactive') DEFAULT 'active',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 

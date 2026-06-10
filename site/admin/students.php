@@ -1,9 +1,10 @@
 <?php
-session_start();
-require_once '../config.php';
+$adminPage = 'students';
+$adminPageTitle = 'Students Showcase';
+require_once 'includes/init.php';
 
-$message = '';
-$messageType = '';
+$message = $adminMessage ?? '';
+$messageType = $adminMessageType ?? '';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -113,14 +114,8 @@ if (isset($_GET['edit'])) {
         $edit_student = null;
     }
 }
+require 'includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Showcase Management - CISD Institute Admin</title>
-    <link rel="stylesheet" href="css/admin.css">
     <style>
         .student-grid {
             display: grid;
@@ -187,50 +182,6 @@ if (isset($_GET['edit'])) {
             padding-top: 16px;
         }
     </style>
-</head>
-<body>
-    <div class="admin-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>CISD Admin</h2>
-                <p>Dashboard Control Panel</p>
-            </div>
-            <nav class="sidebar-nav">
-                <a href="dashboard.php">
-                    <span>📊</span>
-                    <span>Dashboard</span>
-                </a>
-                <a href="applications.php">
-                    <span>📝</span>
-                    <span>Applications</span>
-                </a>
-                <a href="courses.php">
-                    <span>📚</span>
-                    <span>Courses</span>
-                </a>
-                <a href="gallery.php">
-                    <span>🖼️</span>
-                    <span>Gallery</span>
-                </a>
-                <a href="statistics.php">
-                    <span>📈</span>
-                    <span>Statistics</span>
-                </a>
-                <a href="students.php" class="active">
-                    <span>🎓</span>
-                    <span>Students Showcase</span>
-                </a>
-            </nav>
-            <div class="sidebar-footer">
-                <form method="POST" action="logout.php">
-                    <button type="submit" class="logout-btn">Logout</button>
-                </form>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
             <div class="header">
                 <h1>Students Showcase Management</h1>
                 <div class="header-actions">
@@ -332,20 +283,4 @@ if (isset($_GET['edit'])) {
                     <?php endif; ?>
                 </div>
             </div>
-        </main>
-    </div>
-
-    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('active')">☰</button>
-
-    <script>
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(e) {
-            const sidebar = document.querySelector('.sidebar');
-            const toggle = document.querySelector('.menu-toggle');
-            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !toggle.contains(e.target)) {
-                sidebar.classList.remove('active');
-            }
-        });
-    </script>
-</body>
-</html>
+<?php require 'includes/footer.php'; ?>

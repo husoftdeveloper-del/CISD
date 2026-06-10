@@ -26,7 +26,7 @@ if (empty($courses)) {
   <div class="container">
     <span class="eyebrow">Our Courses</span>
     <h1>Choose your path. Build your future.</h1>
-    <p>10+ practical, project-based programs designed around what the market actually pays for.</p>
+    <p><?= e(site_setting('courses_page_subtitle', '10+ practical, project-based programs designed around what the market actually pays for.')) ?></p>
   </div>
 </section>
 

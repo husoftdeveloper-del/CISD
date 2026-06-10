@@ -9,9 +9,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
   $name    = trim($_POST['name'] ?? '');
   $email   = trim($_POST['email'] ?? '');
   $phone   = trim($_POST['phone'] ?? '');
-  $education = trim($_POST['education'] ?? '');
-  $course   = trim($_POST['course'] ?? '');
-  $address  = trim($_POST['address'] ?? '');
+  $subject = trim($_POST['subject'] ?? '');
   $message = trim($_POST['message'] ?? '');
 
   if (!$name || !$email || !$message) {
@@ -19,12 +17,12 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
   } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $status='error'; $msg='Please enter a valid email address.';
   } else {
-    // Prepare insertion into admissions table with new fields
-        $stmt = $conn->prepare("INSERT INTO admissions (full_name, email, phone, education, course, message) VALUES (?,?,?,?,?,?)");
-    $stmt->bind_param('ssssss', $name, $email, $phone, $education, $course, $message);
-    if ($stmt->execute()) { $status='success'; $msg='Application submitted! We will contact you soon.'; $_POST=[]; }
-    else { $status='error'; $msg='Could not submit application. Please try again.'; }
-    $stmt->close();
+    $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, phone, subject, message) VALUES (?,?,?,?,?)");
+    if ($stmt->execute([$name, $email, $phone, $subject, $message])) {
+      $status='success'; $msg='Message sent! We will get back to you soon.'; $_POST=[];
+    } else {
+      $status='error'; $msg='Could not send message. Please try again.';
+    }
   }
 }
 include 'includes/header.php';
@@ -32,9 +30,9 @@ include 'includes/header.php';
 
 <section class="page-header">
   <div class="container">
-    <span class="eyebrow">Contact Us</span>
-    <h1>We'd love to hear from you</h1>
-    <p>Questions about courses, fees or admissions — drop us a message.</p>
+    <span class="eyebrow"><?= e(site_setting('contact_eyebrow', 'Contact Us')) ?></span>
+    <h1><?= e(site_setting('contact_title')) ?></h1>
+    <p><?= e(site_setting('contact_subtitle')) ?></p>
   </div>
 </section>
 
@@ -56,7 +54,7 @@ include 'includes/header.php';
       <div class="info-card"><h4>📞 Phone</h4><p><?= e($INSTITUTE['phone']) ?></p></div>
       <div class="info-card"><h4>✉️ Email</h4><p><?= e($INSTITUTE['email']) ?></p></div>
       <div class="info-card"><h4>📍 Address</h4><p><?= e($INSTITUTE['address']) ?></p></div>
-      <div class="map-frame"><iframe src="https://www.google.com/maps?q=<?= e($INSTITUTE['address']) ?>&output=embed" loading="lazy"></iframe></div>
+      <div class="map-frame"><iframe src="<?= e($INSTITUTE['maps']) ?>" loading="lazy"></iframe></div>
     </div>
   </div>
 </section>

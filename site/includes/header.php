@@ -24,7 +24,7 @@
       <a href="courses.php" class="<?= $PAGE==='courses'?'active':'' ?>">Courses</a>
       <a href="gallery.php" class="<?= $PAGE==='gallery'?'active':'' ?>">Gallery</a>
       <a href="contact.php" class="<?= $PAGE==='contact'?'active':'' ?>">Contact</a>
-      <a href="admin/dashboard.php" class="<?= $PAGE==='admin-dashboard'?'active':'' ?>">Admin</a>
+      <a href="admin-login.php" class="<?= $PAGE==='admin-dashboard'?'active':'' ?>">Admin</a>
       <a href="admissions.php" class="btn btn-gold nav-cta">Apply Now</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu">

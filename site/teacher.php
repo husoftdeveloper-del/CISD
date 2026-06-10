@@ -1,78 +1,43 @@
 <?php
-// teacher.php - display individual teacher details
-require 'includes/header.php';
+$PAGE = 'about';
+$PAGE_TITLE = 'Team Member — CISD INSTITUTE';
+require_once 'config.php';
 
-// Define teacher data (same order as in about.php)
-$teachers = [
-    [
-        'image' => 'shahabsir.JPEG',
-        'name' => 'Shahab Khan',
-        'role' => 'Founder & Lead Instructor',
-        'field' => 'Software Engineer',
-        'location' => 'Sardheri, Charsadda',
-        'contact' => '+92-370-504-0330',
-        'email' => 'shahab@cisd-institute.com',
-        'education' => 'M.Sc. Computer Science'
-    ],
-    [
-        'image' => 'qarisaib.JPEG',
-        'name' => 'Usman Ali',
-        'role' => 'Senior Trainer',
-        'field' => 'UI/UX & Graphic Design',
-        'location' => 'Sardheri, Charsadda',
-        'contact' => '+92-370-504-0331',
-        'email' => 'usman@cisd-institute.com',
-        'education' => 'B.Des. Graphic Design'
-    ],
-    [
-        'image' => 'Hafiz.PNG',
-        'name' => 'Hafiz Ullah',
-        'role' => 'Trainer',
-        'field' => 'Video Editing & Content',
-        'location' => 'Sardheri,Charsadda',
-        'contact' => '+92-370-504-0332',
-        'email' => 'hafiz@cisd-institute.com',
-        'education' => 'Diploma in Video Production'
-    ],
-    [
-        'image' => 'Daniyal.JPEG',
-        'name' => 'Danyal',
-        'role' => 'Trainer',
-        'field' => 'Digital Marketing',
-        'location' => 'Mardan , Pakistan',
-        'contact' => '+92-370-504-0333',
-        'email' => 'danyal@cisd-institute.com',
-        'education' => 'BBA Marketing'
-    ]
-];
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$stmt = $pdo->prepare("SELECT * FROM team_members WHERE id = ? AND status = 'active'");
+$stmt->execute([$id]);
+$teacher = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : -1;
-if ($id < 0 || $id >= count($teachers)) {
-    echo '<p>Teacher not found.</p>';
-    require 'includes/footer.php';
+if (!$teacher) {
+    include 'includes/header.php';
+    echo '<section class="section"><div class="container"><p>Team member not found.</p><a href="about.php" class="btn btn-navy">Back to Team</a></div></section>';
+    include 'includes/footer.php';
     exit;
 }
-$teacher = $teachers[$id];
+
+$PAGE_TITLE = $teacher['name'] . ' — CISD INSTITUTE';
+include 'includes/header.php';
 ?>
+
 <section class="section">
   <div class="container">
     <div class="card" style="max-width:600px;margin:auto;">
-      <img src="images/<?= e($teacher['image']) ?>" alt="<?= e($teacher['name']) ?>" style="width:100%;object-fit:cover;" />
+      <img src="<?= e($teacher['image_path']) ?>" alt="<?= e($teacher['name']) ?>" style="width:100%;object-fit:cover;" />
       <div class="card-body">
         <h3><?= e($teacher['name']) ?></h3>
         <p style="color:var(--gold);font-weight:600;margin:0;"><?= e($teacher['role']) ?></p>
-        <p><?= e($teacher['field']) ?></p>
+        <p><?= e($teacher['specialty']) ?></p>
+        <?php if ($teacher['bio']): ?><p><?= e($teacher['bio']) ?></p><?php endif; ?>
         <ul style="list-style:none;padding:0;margin-top:10px;">
-          <li><strong>Location:</strong> <?= e($teacher['location']) ?></li>
-          <li><strong>Contact:</strong> <?= e($teacher['contact']) ?></li>
-          <li><strong>Email:</strong> <a href="mailto:<?= e($teacher['email']) ?>"><?= e($teacher['email']) ?></a></li>
-          <li><strong>Education:</strong> <?= e($teacher['education']) ?></li>
+          <?php if ($teacher['location']): ?><li><strong>Location:</strong> <?= e($teacher['location']) ?></li><?php endif; ?>
+          <?php if ($teacher['contact']): ?><li><strong>Contact:</strong> <?= e($teacher['contact']) ?></li><?php endif; ?>
+          <?php if ($teacher['email']): ?><li><strong>Email:</strong> <a href="mailto:<?= e($teacher['email']) ?>"><?= e($teacher['email']) ?></a></li><?php endif; ?>
+          <?php if ($teacher['education']): ?><li><strong>Education:</strong> <?= e($teacher['education']) ?></li><?php endif; ?>
         </ul>
         <a href="about.php" class="view-more-btn" style="margin-top:15px;display:inline-block;">Back to Team</a>
       </div>
     </div>
   </div>
 </section>
-<?php
-require 'includes/footer.php';
-?>
+
+<?php include 'includes/footer.php'; ?>
