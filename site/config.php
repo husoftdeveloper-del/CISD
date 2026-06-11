@@ -11,6 +11,14 @@ $user = $user ?? 'u328011253_cisd_db';
 $pass = $pass ?? 'Y9:>5L4VF5p$';
 $db   = $db   ?? 'u328011253_cisd_db';
 
+// Institute portal database (students, fees, teachers).
+// Use a separate database on Hostinger to avoid table name conflicts with the website.
+// Set $portal_db in config_local.php for local development (e.g. "CISD").
+$portal_db = $portal_db ?? 'u328011253_cisd_portal';
+
+// Optional source DB for Admin → Portal Setup → import (same MySQL server only)
+$portal_import_from = $portal_import_from ?? '';
+
 // SMTP configuration for PHPMailer (can be overridden in config_local.php)
 $SMTP_HOST = $SMTP_HOST ?? 'smtp.gmail.com';
 $SMTP_PORT = $SMTP_PORT ?? 587;

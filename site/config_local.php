@@ -10,6 +10,12 @@ $pass = ""; // usually empty for XAMPP local root
 // If you haven’t imported site/database.sql yet, create/import it and update this value.
 $db   = "novaskills"; // use an existing local DB name
 
+// Smart portal (institute management) — separate DB avoids conflicts with website tables
+$portal_db = "CISD";
+
+// Optional: source DB name for one-click import via Admin → Portal Setup
+$portal_import_from = "CISD";
+
 // SMTP configuration for PHPMailer (optional for local)
 $SMTP_HOST = 'smtp.gmail.com';
 $SMTP_PORT = 587;

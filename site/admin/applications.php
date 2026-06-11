@@ -3,6 +3,7 @@ $adminPage = 'applications';
 $adminPageTitle = 'Applications Management';
 require_once 'includes/init.php';
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../includes/portal-enroll.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -10,19 +11,45 @@ use PHPMailer\PHPMailer\Exception;
 $message = $adminMessage ?? '';
 $messageType = $adminMessageType ?? '';
 
+// Handle enroll into institute portal
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'enroll') {
+    $id = intval($_POST['id']);
+    $portalConn = cisd_portal_connection();
+    if (!$portalConn) {
+        $message = 'Institute portal database is not connected. Open Portal Setup to configure it.';
+        $messageType = 'error';
+    } else {
+        $result = cisd_enroll_online_application($pdo, $portalConn, $id);
+        $message = $result['message'];
+        $messageType = $result['success'] ? 'success' : 'error';
+        $portalConn->close();
+    }
+}
+
 // Handle status update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_status') {
     $id = intval($_POST['id']);
     $status = $_POST['status'] ?? 'pending';
     
     try {
-        $stmt = $pdo->prepare("UPDATE admissions SET status = ? WHERE id = ?");
+        $stmt = $pdo->prepare("UPDATE online_applications SET status = ? WHERE id = ?");
         $stmt->execute([$status, $id]);
         $message = 'Application status updated successfully!';
         $messageType = 'success';
 
+        if ($status === 'approved') {
+            $portalConn = cisd_portal_connection();
+            if ($portalConn) {
+                $enroll = cisd_enroll_online_application($pdo, $portalConn, $id);
+                if ($enroll['success'] && !empty($enroll['registration_no'])) {
+                    $message .= ' Enrolled as ' . $enroll['registration_no'] . '.';
+                }
+                $portalConn->close();
+            }
+        }
+
         // Fetch user email to send notification
-        $stmt = $pdo->prepare("SELECT email, full_name FROM admissions WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT email, full_name FROM online_applications WHERE id = ?");
         $stmt->execute([$id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -84,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $id = intval($_POST['id']);
     
     try {
-        $stmt = $pdo->prepare("DELETE FROM admissions WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM online_applications WHERE id = ?");
         $stmt->execute([$id]);
         $message = 'Application deleted successfully!';
         $messageType = 'success';
@@ -99,7 +126,7 @@ $status_filter = $_GET['status'] ?? '';
 $search = $_GET['search'] ?? '';
 
 // Build query
-$query = "SELECT * FROM admissions WHERE 1=1";
+$query = "SELECT * FROM online_applications WHERE 1=1";
 $params = [];
 
 if ($status_filter) {
@@ -129,9 +156,9 @@ try {
 
 // Get counts
 try {
-    $pending_count = $pdo->query("SELECT COUNT(*) FROM admissions WHERE status = 'pending'")->fetchColumn();
-    $approved_count = $pdo->query("SELECT COUNT(*) FROM admissions WHERE status = 'approved'")->fetchColumn();
-    $rejected_count = $pdo->query("SELECT COUNT(*) FROM admissions WHERE status = 'rejected'")->fetchColumn();
+    $pending_count = $pdo->query("SELECT COUNT(*) FROM online_applications WHERE status = 'pending'")->fetchColumn();
+    $approved_count = $pdo->query("SELECT COUNT(*) FROM online_applications WHERE status = 'approved'")->fetchColumn();
+    $rejected_count = $pdo->query("SELECT COUNT(*) FROM online_applications WHERE status = 'rejected'")->fetchColumn();
 } catch (PDOException $e) {
     $pending_count = 0;
     $approved_count = 0;
@@ -201,6 +228,7 @@ require 'includes/header.php';
                                 <th>Education</th>
                                 <th>City</th>
                                 <th>Status</th>
+                                <th>Enrolled</th>
                                 <th>Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -220,6 +248,13 @@ require 'includes/header.php';
                                             <?= ucfirst($app['status']) ?>
                                         </span>
                                     </td>
+                                    <td>
+                                        <?php if (!empty($app['portal_admission_id'])): ?>
+                                            <a href="../smart_portal/edit_admission.php?id=<?= (int) $app['portal_admission_id'] ?>" class="btn btn-sm btn-success" target="_blank">Portal #<?= (int) $app['portal_admission_id'] ?></a>
+                                        <?php else: ?>
+                                            <span class="badge badge-pending">Not yet</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td><?= date('M j, Y', strtotime($app['created_at'])) ?></td>
                                     <td>
                                         <form method="POST" style="display: inline;">
@@ -232,6 +267,13 @@ require 'includes/header.php';
                                             </select>
                                         </form>
                                         <button onclick="showDetails(<?= htmlspecialchars(json_encode($app)) ?>)" class="btn btn-sm btn-primary" style="margin-left: 4px;">View</button>
+                                        <?php if (empty($app['portal_admission_id'])): ?>
+                                        <form method="POST" style="display: inline;" onsubmit="return confirm('Enroll this applicant in the institute portal? You can complete CNIC, father name, and fees there.');">
+                                            <input type="hidden" name="action" value="enroll">
+                                            <input type="hidden" name="id" value="<?= $app['id'] ?>">
+                                            <button type="submit" class="btn btn-sm btn-success" style="margin-left: 4px;">Enroll</button>
+                                        </form>
+                                        <?php endif; ?>
                                         <form method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this application?');">
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="id" value="<?= $app['id'] ?>">
@@ -242,7 +284,7 @@ require 'includes/header.php';
                             <?php endforeach; ?>
                             <?php if (empty($applications)): ?>
                                 <tr>
-                                    <td colspan="10" style="text-align: center; color: #64748b; padding: 40px;">No applications found.</td>
+                                    <td colspan="11" style="text-align: center; color: #64748b; padding: 40px;">No applications found.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Short Hand Course | CISD CHD</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:radial-gradient(circle at top left,#9b59b6,#3498db,#1abc9c);
+    background-size:400% 400%;
+    animation:bgMove 12s infinite ease;
+    padding:40px;
+    color:#fff;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* Glass Container */
+.glass-wrapper{
+    max-width:1200px;
+    margin:auto;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(18px);
+    border-radius:30px;
+    padding:45px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.4);
+}
+
+/* Header */
+.header{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.header h1{
+    font-size:42px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.header p{
+    margin-top:10px;
+    font-size:18px;
+    opacity:0.9;
+}
+
+/* Info Cards */
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    margin-bottom:45px;
+}
+
+.glass-card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    position:relative;
+    transition:0.4s;
+}
+
+.glass-card::before{
+    content:'';
+    position:absolute;
+    inset:-2px;
+    border-radius:22px;
+    background:linear-gradient(60deg,#f39c12,#9b59b6,#3498db,#1abc9c);
+    background-size:400% 400%;
+    animation:borderGlow 6s infinite linear;
+    z-index:-1;
+}
+
+@keyframes borderGlow{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.glass-card i{
+    font-size:34px;
+    margin-bottom:12px;
+    color:#00ffd5;
+}
+
+.glass-card strong{
+    display:block;
+    font-size:20px;
+    margin-top:6px;
+}
+
+.glass-card:hover{
+    transform:translateY(-10px) scale(1.04);
+}
+
+/* Details */
+.details{
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(15px);
+    border-radius:22px;
+    padding:35px;
+    margin-bottom:45px;
+}
+
+.details h2{
+    font-size:28px;
+    margin-bottom:20px;
+}
+
+.details ul{
+    list-style:none;
+}
+
+.details li{
+    padding:10px 0;
+    font-size:16px;
+    display:flex;
+    gap:10px;
+}
+
+.details i{
+    color:#00ffd5;
+}
+
+/* Buttons */
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:22px;
+}
+
+.btn{
+    padding:16px 42px;
+    border-radius:50px;
+    font-weight:700;
+    color:#fff;
+    text-decoration:none;
+    display:inline-flex;
+    gap:10px;
+    position:relative;
+    overflow:hidden;
+}
+
+.btn::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg,#9b59b6,#3498db,#1abc9c);
+    background-size:200% 200%;
+    z-index:-1;
+    transition:0.4s;
+}
+
+.btn:hover::before{
+    background-position:100% 50%;
+}
+
+.btn:hover{
+    transform:translateY(-6px);
+}
+
+.btn-dashboard::before{background:linear-gradient(120deg,#e67e22,#e74c3c);}
+.btn-fee::before{background:linear-gradient(120deg,#1abc9c,#16a085);}
+
+.footer{
+    text-align:center;
+    margin-top:35px;
+    opacity:0.8;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+    body{padding:20px;}
+    .header h1{font-size:32px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="glass-wrapper">
+
+    <div class="header">
+        <h1><i class="fa-solid fa-pen-nib"></i> Short Hand Course</h1>
+        <p>Fast Writing • Accuracy • Professional Skill</p>
+    </div>
+
+    <div class="info-grid">
+        <div class="glass-card">
+            <i class="fa-solid fa-clock"></i>
+            Duration
+            <strong>3 Months</strong>
+        </div>
+
+        <div class="glass-card">
+            <i class="fa-solid fa-wallet"></i>
+            Admission Fee
+            <strong>Rs. 3000</strong>
+        </div>
+
+        <div class="glass-card">
+            <i class="fa-solid fa-calendar"></i>
+            Monthly Fee
+            <strong>Rs. 2000</strong>
+        </div>
+
+        <div class="glass-card">
+            <i class="fa-solid fa-certificate"></i>
+            Certificate
+            <strong>Yes</strong>
+        </div>
+    </div>
+
+    <div class="details">
+        <h2>Course Highlights</h2>
+        <ul>
+            <li><i class="fa-solid fa-check-circle"></i> Short Hand Symbols & Rules</li>
+            <li><i class="fa-solid fa-check-circle"></i> Speed Building Techniques</li>
+            <li><i class="fa-solid fa-check-circle"></i> Dictation Practice</li>
+            <li><i class="fa-solid fa-check-circle"></i> Accuracy Improvement</li>
+            <li><i class="fa-solid fa-check-circle"></i> Office & Court Level Training</li>
+        </ul>
+    </div>
+
+    <div class="actions">
+        <a href="admission.php" class="btn">🧑‍🎓 Admission Form</a>
+        <a href="fee_receipt.php" class="btn btn-fee">💳 Fee Receipt</a>
+        <a href="dashboard.php" class="btn btn-dashboard">⬅ Dashboard</a>
+    </div>
+
+</div>
+
+<div class="footer">
+    © 2026 CISD CHD | Short Hand Department
+</div>
+
+</body>
+</html>
+

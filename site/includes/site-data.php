@@ -99,7 +99,7 @@ function cisd_get_success_stories(?PDO $pdo, ?int $limit = null): array
 function cisd_admin_pending_count(PDO $pdo): int
 {
     try {
-        return (int) $pdo->query("SELECT COUNT(*) FROM admissions WHERE status = 'pending'")->fetchColumn();
+        return (int) $pdo->query("SELECT COUNT(*) FROM online_applications WHERE status = 'pending'")->fetchColumn();
     } catch (PDOException $e) {
         return 0;
     }

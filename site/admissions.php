@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     // Try to save to database if available
     if (isset($pdo)) {
       try {
-        $stmt = $pdo->prepare("INSERT INTO admissions (full_name, email, phone, course, education, city, message) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO online_applications (full_name, email, phone, course, education, city, message) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$full_name, $email, $phone, $course, $education, $city, $message]);
         $status='success'; 
         $msg='Application submitted! Our team will contact you within 24 hours.'; 

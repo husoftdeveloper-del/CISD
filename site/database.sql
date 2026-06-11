@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS u328011253_cisd_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
-CREATE TABLE IF NOT EXISTS admissions (
+CREATE TABLE IF NOT EXISTS online_applications (
   id INT AUTO_INCREMENT PRIMARY KEY,
   full_name VARCHAR(120) NOT NULL,
   email VARCHAR(160) NOT NULL,
@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS admissions (
   city VARCHAR(80),
   message TEXT,
   status ENUM('pending','approved','rejected') DEFAULT 'pending',
+  portal_admission_id INT DEFAULT NULL,
+  enrolled_at TIMESTAMP NULL DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 

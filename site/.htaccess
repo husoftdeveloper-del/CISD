@@ -1,0 +1,19 @@
+# CISD Institute — URL routing
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # /admin → admin panel entry (login or dashboard)
+    RewriteRule ^admin/?$ admin/index.php [L]
+
+    # Optional: hide smart_portal folder name from URL
+    RewriteRule ^admin/institute/?$ smart_portal/dashboard.php [L]
+    RewriteRule ^admin/institute/(.+\.php)$ smart_portal/$1 [L]
+</IfModule>
+
+# Protect sensitive files
+<FilesMatch "^(config_local\.php|\.env)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>

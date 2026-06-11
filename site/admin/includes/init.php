@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/site-data.php';
 
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: ../admin-login.php');
+    header('Location: login.php');
     exit();
 }
 

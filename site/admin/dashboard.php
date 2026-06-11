@@ -55,6 +55,7 @@ require 'includes/header.php';
         <a href="applications.php" class="btn btn-primary">Applications</a>
         <a href="messages.php" class="btn btn-warning">Messages</a>
         <a href="statistics.php" class="btn btn-primary">Statistics</a>
+        <a href="../smart_portal/dashboard.php" class="btn btn-success">Institute Portal →</a>
     </div>
 </div>
 

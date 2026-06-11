@@ -48,7 +48,56 @@ function cisd_run_migrations(PDO $pdo): void
         // Column already exists.
     }
 
+    cisd_migrate_online_applications($pdo);
     cisd_seed_defaults($pdo);
+}
+
+function cisd_migrate_online_applications(PDO $pdo): void
+{
+    $hasOnline = (bool) $pdo->query("SHOW TABLES LIKE 'online_applications'")->fetchColumn();
+
+    if (!$hasOnline) {
+        $legacy = $pdo->query("SHOW TABLES LIKE 'admissions'")->fetchColumn();
+        if ($legacy) {
+            $fullNameCol = $pdo->query("SHOW COLUMNS FROM admissions LIKE 'full_name'")->fetch(PDO::FETCH_ASSOC);
+            if ($fullNameCol) {
+                try {
+                    $pdo->exec('RENAME TABLE admissions TO online_applications');
+                    $hasOnline = true;
+                } catch (PDOException $e) {
+                    // Portal admissions table may exist on same DB — create website table separately.
+                }
+            }
+        }
+    }
+
+    if (!$hasOnline) {
+        $pdo->exec("
+            CREATE TABLE IF NOT EXISTS online_applications (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                full_name VARCHAR(120) NOT NULL,
+                email VARCHAR(160) NOT NULL,
+                phone VARCHAR(40) NOT NULL,
+                course VARCHAR(120) NOT NULL,
+                education VARCHAR(160),
+                city VARCHAR(80),
+                message TEXT,
+                status ENUM('pending','approved','rejected') DEFAULT 'pending',
+                portal_admission_id INT DEFAULT NULL,
+                enrolled_at TIMESTAMP NULL DEFAULT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB
+        ");
+    }
+
+    try {
+        $pdo->exec('ALTER TABLE online_applications ADD COLUMN portal_admission_id INT DEFAULT NULL');
+    } catch (PDOException $e) {
+    }
+    try {
+        $pdo->exec('ALTER TABLE online_applications ADD COLUMN enrolled_at TIMESTAMP NULL DEFAULT NULL');
+    } catch (PDOException $e) {
+    }
 }
 
 function cisd_seed_setting(PDO $pdo, string $key, string $value): void

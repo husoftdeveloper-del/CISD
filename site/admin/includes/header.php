@@ -54,6 +54,16 @@
                     <span class="nav-badge"><?= $unread_messages ?></span>
                 <?php endif; ?>
             </a>
+            <div class="sidebar-divider"></div>
+            <a href="portal-setup.php" class="<?= $adminPage === 'portal-setup' ? 'active' : '' ?>">
+                <span>🗄️</span><span>Portal Setup</span>
+            </a>
+            <a href="../smart_portal/dashboard.php" class="<?= $adminPage === 'institute' ? 'active' : '' ?>">
+                <span>🏫</span><span>Institute Portal</span>
+            </a>
+            <a href="../index.php" target="_blank">
+                <span>🌐</span><span>View Website</span>
+            </a>
         </nav>
         <div class="sidebar-footer">
             <p class="admin-user">Logged in as <?= e($_SESSION['admin_username'] ?? 'Admin') ?></p>
